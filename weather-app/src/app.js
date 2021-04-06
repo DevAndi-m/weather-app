@@ -2,9 +2,7 @@ const expres = require('express');
 const hbs = require('hbs');
 // const request = require ('request');
 const weatherData = require('../utils/weatherData');
-
 const path = require('path')
-
 const app = expres() // serveri
 
 // Thirrja e path-it (Define Path)
@@ -86,8 +84,12 @@ app.get('/weather', (req, res) => {
 
     const search = req.query.search
 
-    weatherData(search, (result) => {
-        console.log(result)
+    weatherData(search, (error, {temperature, description, cityName} = {}) => {
+        if(error) {
+            return res.send({
+                error
+            })
+        }
     })
 })
 
